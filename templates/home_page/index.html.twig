@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello HomePageController!{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+<div class="example-wrapper">
+    <h1 class="text-orange-700	">Hello {{ controller_name }}! ✅</h1>
+
+    This friendly message is coming from:
+    <ul>
+        <li>Your controller at <code><a href="{{ 'C:/Users/LazareC/Documents/cours/php/php/phpavance/src/Controller/HomePageController.php'|file_link(0) }}">src/Controller/HomePageController.php</a></code></li>
+        <li>Your template at <code><a href="{{ 'C:/Users/LazareC/Documents/cours/php/php/phpavance/templates/home_page/index.html.twig'|file_link(0) }}">templates/home_page/index.html.twig</a></code></li>
+    </ul>
+    <table>
+        <thead>
+        <tr>
+            <th>Nom du film</th>
+            <th>Description du film</th>
+            <th>Note</th>
+            <th>nombre de notes</th>
+        </tr>
+        </thead>
+    {%  for movie in movies %}
+        <tr>
+            <td>{{ movie.name }}</td>
+            <td>{{ movie.description }}</td>
+            <td>{{ movie.score }}</td>
+            <td>{{ movie.votersNumbers }}</td>
+            <td><a href="{{ path('movie_detail', { 'id': movie.id }) }}"><button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">Voir</button></a></td>
+
+        </tr>
+
+    {% endfor %}
+    </table>
+</div>
+{% endblock %}

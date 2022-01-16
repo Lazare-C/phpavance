@@ -1,0 +1,12 @@
+[
+  {
+    "name": "bulk1JSON",
+    "description": "Le bon vieux film la",
+    "Note": 3
+  },
+  {
+    "name": "bulk2JSON",
+    "description": "Sympatique lol",
+    "Note": 4
+  }
+]

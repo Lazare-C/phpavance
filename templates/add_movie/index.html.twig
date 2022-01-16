@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello AddMovieController!{% endblock %}
+
+{% block body %}
+
+<div class="example-wrapper">
+
+    This friendly message is coming from:
+
+
+    <h1>Add movie</h1>
+    {% form_theme form 'tailwind_2_layout.html.twig' %}
+
+    {{ form(form) }}
+</div>
+{% endblock %}
