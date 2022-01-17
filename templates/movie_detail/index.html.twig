@@ -3,17 +3,17 @@
 {% block title %}Hello MovieDetailController!{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
 
-    This friendly message is coming from:
+    <div class="example-wrapper">
 
-    <h2>{{ movie.name }}</h2>
-    {{ form(delete) }}
-</div>
+
+        <h1 class="text-2xl">{{ movie.name }}</h1>
+        <p class="italic"> {{ movie.description }}</p>
+        <p>Note locale: {{ movie.score }}</p>
+        <p>Nombre de vote local: {{ movie.votersNumbers }}</p>
+        <p>Note IMDB: {{ movie.imdbRating }}</p>
+        <p>Nombre de vote IMDB: {{ movie.imdbVotes }}</p>
+        {{ form(delete) }}
+    </div>
 {% endblock %}

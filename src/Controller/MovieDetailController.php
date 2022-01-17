@@ -1,9 +1,16 @@
 <?php
+/*
+ * Copyright (C) CHEVEREAU Lazare - All Rights Reserved
+ *
+ * @project    phpavance
+ * @file       MovieDetailController.php
+ * @author     CHEVEREAU Lazare
+ * @date       17/01/2022 13:11
+ */
 
 namespace App\Controller;
 
 use App\Entity\Movie;
-use App\Repository\MovieRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -23,7 +30,11 @@ class MovieDetailController extends AbstractController
 
         $movie = $id;
         $delete = $this->createFormBuilder()
-            ->add('admincode', PasswordType::class,['constraints' => [new EqualTo("1234", null, "Le code n'est pas bon")]])
+            ->add(
+                'admincode',
+                PasswordType::class,
+                ['constraints' => [new EqualTo($_SERVER['ADMIN_CODE'], null, "Le code n'est pas bon")]]
+            )
             ->add('supression', SubmitType::class, ['label' => 'supression'])
             ->getForm();
 
@@ -31,15 +42,11 @@ class MovieDetailController extends AbstractController
         $delete->handleRequest($request);
 
         if ($delete->isSubmitted() && $delete->isValid()) {
-            // $form->getData() holds the submitted values
-            // but, the original `$task` variable has also been updated
              $delete->getData();
              $doctrine->getManager()->remove($movie);
             $doctrine->getManager()->flush();
             return $this->redirectToRoute('home_page');
         }
-
-
 
         return $this->render('movie_detail/index.html.twig', [
             'controller_name' => 'MovieDetailController',

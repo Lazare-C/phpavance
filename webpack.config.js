@@ -1,3 +1,12 @@
+/*
+ * Copyright (C) CHEVEREAU Lazare - All Rights Reserved
+ *
+ * @project    phpavance
+ * @file       webpack.config.js
+ * @author     CHEVEREAU Lazare
+ * @date       17/01/2022 13:11
+ */
+
 const Encore = require('@symfony/webpack-encore');
 const PurgeCssPlugin = require('purgecss-webpack-plugin');
 const glob = require('glob-all');
@@ -10,7 +19,8 @@ if (!Encore.isRuntimeEnvironmentConfigured()) {
 if (Encore.isProduction()) {
     Encore.addPlugin(new PurgeCssPlugin({
         paths: glob.sync([
-            path.join(__dirname, 'templates/**/*.html.twig')
+            path.join(__dirname, 'templates/**/*.html.twig'),
+            path.join(__dirname, 'vendor/symfony/twig-bridge/Resources/views/Form/*.html.twig')
         ]),
         defaultExtractor: (content) => {
             return content.match(/[\w-/:]+(?<!:)/g) || [];
@@ -69,21 +79,21 @@ Encore
         config.corejs = 3;
     })
 
-    // enables Sass/SCSS support
-    //.enableSassLoader()
+// enables Sass/SCSS support
+//.enableSassLoader()
 
-    // uncomment if you use TypeScript
-    //.enableTypeScriptLoader()
+// uncomment if you use TypeScript
+//.enableTypeScriptLoader()
 
-    // uncomment if you use React
-    //.enableReactPreset()
+// uncomment if you use React
+//.enableReactPreset()
 
-    // uncomment to get integrity="..." attributes on your script & link tags
-    // requires WebpackEncoreBundle 1.4 or higher
-    //.enableIntegrityHashes(Encore.isProduction())
+// uncomment to get integrity="..." attributes on your script & link tags
+// requires WebpackEncoreBundle 1.4 or higher
+//.enableIntegrityHashes(Encore.isProduction())
 
-    // uncomment if you're having problems with a jQuery plugin
-    //.autoProvidejQuery()
+// uncomment if you're having problems with a jQuery plugin
+//.autoProvidejQuery()
 ;
 
 module.exports = Encore.getWebpackConfig();

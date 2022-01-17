@@ -1,4 +1,12 @@
 <?php
+/*
+ * Copyright (C) CHEVEREAU Lazare - All Rights Reserved
+ *
+ * @project    phpavance
+ * @file       MovieRepository.php
+ * @author     CHEVEREAU Lazare
+ * @date       17/01/2022 13:11
+ */
 
 namespace App\Repository;
 
@@ -22,7 +30,7 @@ class MovieRepository extends ServiceEntityRepository
 
     public function findAll(): array
     {
-        return $this->findBy(array(), array('name' => 'ASC'));
+        return $this->findBy(array(), array('score' => 'DESC', 'name' => 'ASC'));
     }
 
 

@@ -4,14 +4,13 @@
 
 {% block body %}
 
-<div class="example-wrapper">
-
-    This friendly message is coming from:
+    <div class="example-wrapper">
 
 
-    <h1>Add movie</h1>
-    {% form_theme form 'tailwind_2_layout.html.twig' %}
+        <h1 class="text-2xl my-8">Add movie</h1>
+        {% form_theme form 'tailwind_2_layout.html.twig' %}
 
-    {{ form(form) }}
-</div>
+        {{ form(form) }}
+
+    </div>
 {% endblock %}

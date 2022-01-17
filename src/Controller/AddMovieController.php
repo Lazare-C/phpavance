@@ -1,9 +1,18 @@
 <?php
+/*
+ * Copyright (C) CHEVEREAU Lazare - All Rights Reserved
+ *
+ * @project    phpavance
+ * @file       AddMovieController.php
+ * @author     CHEVEREAU Lazare
+ * @date       17/01/2022 13:11
+ */
 
 namespace App\Controller;
 
 use App\Entity\Movie;
 use App\Form\AddMovieType;
+use App\Service\MovieScrapper;
 use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -14,9 +23,8 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Service\MovieScrapper;
 use Symfony\Component\Serializer\SerializerInterface;
-use function Amp\Iterator\map;
+use Symfony\Component\Validator\Constraints\File;
 
 class AddMovieController extends AbstractController
 {
@@ -33,21 +41,38 @@ class AddMovieController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $movie = $form->getData();
             $entityManager = $doctrine->getManager();
+            $movie = $scrape->scrapeDescription($movie);
+            if ($movie != null) {
 
-           // $scrape = new MovieScrapper($doctrine);
-            $movie =$scrape->scrapeDescription($movie);
-            if($movie !=null){
-                $entityManager->persist($movie);
-                $entityManager->flush();
+                /** @var Movie $old_movie */
+                $old_movie = $entityManager->getRepository(Movie::class)->findOneBy(['name' => $movie->getName()]);
+
+                if ($old_movie !== null) {
+                    $old_movie->setScore(
+                        ($old_movie->getScore() * $old_movie->getVotersNumbers() + $movie->getScore(
+                            )) / ($old_movie->getVotersNumbers() + 1)
+                    );
+                    $old_movie->setVotersNumbers($old_movie->getVotersNumbers() + 1);
+                    $entityManager->persist($old_movie);
+                    $entityManager->remove($movie);
+                    $entityManager->detach($movie);
+                    $entityManager->flush();
+                    $this->addFlash("info", "Film déja existant, ajout de la note");
+                } else {
+                    $movie->setVotersNumbers(1);
+                    $entityManager->persist($movie);
+                    $entityManager->flush();
+                    $this->addFlash("succes", "Le film a bien été ajouté");
+                }
+
                 return $this->redirectToRoute('home_page');
-            }else{
+            } else {
                 $form->addError(new FormError('Le film n\'existe pas'), "name");
             }
         }
         return $this->renderForm('add_movie/index.html.twig', [
             'form' => $form,
         ]);
-
     }
 
     /**
@@ -73,25 +98,33 @@ class AddMovieController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $doctrine->getManager();
             /** @var UploadedFile $file */
-             $file = $form['attachment']->getData();
-             $logger->debug($file->getMimeType());
-            if( $file->getMimeType() == "application/json"){
-                $movies = $serializer->deserialize(file_get_contents($file->getPathname()), 'App\Entity\Movie[]', 'json');
-            }else{
-                $movies = $serializer->deserialize(file_get_contents($file->getPathname()), 'App\Entity\Movie[]', 'csv');
+            $file = $form['attachment']->getData();
+            $logger->debug($file->getMimeType());
+            if ($file->getMimeType() == "application/json") {
+                $movies = $serializer->deserialize(
+                    file_get_contents($file->getPathname()),
+                    'App\Entity\Movie[]',
+                    'json'
+                );
+            } else {
+                $movies = $serializer->deserialize(
+                    file_get_contents($file->getPathname()),
+                    'App\Entity\Movie[]',
+                    'csv'
+                );
             }
             $logger->info("CHAUSSURE");
-                foreach ($movies as $movie)
-                {
-                    $movie->setAddBy("admin@movie.com");
-                    $entityManager->persist($movie);
-                }
-                $entityManager->flush();
+            foreach ($movies as $movie) {
+                $movie->setAddBy("admin@movie.com");
+                $entityManager->persist($movie);
+            }
+            $entityManager->flush();
+
             return $this->redirectToRoute('home_page');
         }
-        return $this->renderForm('add_movie/index.html.twig', [
+
+        return $this->renderForm('add_movie/bulk.html.twig', [
             'form' => $form,
         ]);
     }
-
 }

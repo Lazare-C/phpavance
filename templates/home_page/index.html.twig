@@ -3,39 +3,50 @@
 {% block title %}Hello HomePageController!{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
 
-<div class="example-wrapper">
-    <h1 class="text-orange-700	">Hello {{ controller_name }}! ✅</h1>
+    <div class="example-wrapper">
+        <div class="title">
+            <h1 class="text-4xl">Liste des films!</h1>
+            <p class="italic mb-4">Liste regroupant les films avec mes notes mais aussi celles de IMDB</p>
+        </div>
+    </div>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/Users/LazareC/Documents/cours/php/php/phpavance/src/Controller/HomePageController.php'|file_link(0) }}">src/Controller/HomePageController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/Users/LazareC/Documents/cours/php/php/phpavance/templates/home_page/index.html.twig'|file_link(0) }}">templates/home_page/index.html.twig</a></code></li>
-    </ul>
-    <table>
-        <thead>
-        <tr>
-            <th>Nom du film</th>
-            <th>Description du film</th>
-            <th>Note</th>
-            <th>nombre de notes</th>
-        </tr>
-        </thead>
-    {%  for movie in movies %}
-        <tr>
-            <td>{{ movie.name }}</td>
-            <td>{{ movie.description }}</td>
-            <td>{{ movie.score }}</td>
-            <td>{{ movie.votersNumbers }}</td>
-            <td><a href="{{ path('movie_detail', { 'id': movie.id }) }}"><button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">Voir</button></a></td>
+    <div class="table w-full max-w-full">
+        <div class="table-header-group ">
+            <div class="table-row ">
+                <div class="table-cell text-left  px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                    Nom du film
+                </div>
+                <div class="table-cell text-left px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                    Description du film
+                </div>
+                <div class="table-cell text-left px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                    Note
+                </div>
+                <div class="table-cell text-left px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                    Nombre de notes
+                </div>
+                <div class="table-cell text-left px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                    Détail
+                </div>
 
-        </tr>
+            </div>
+        </div>
 
-    {% endfor %}
-    </table>
-</div>
+        <div class="table-row-group">
+            {% for movie in movies %}
+                <div class="table-row border border-solid border-blueGray-100 align-middle ">
+                    <div class="table-cell  border-t-0 px-6 align-middle border-l-0 border-r-0  whitespace-nowrap p-4 text-left text-blueGray-700">{{ movie.name }}</div>
+                    <div class="table-cell truncate max-w-2xl border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs  p-4 text-left text-blueGray-700">{{ movie.description }}</div>
+                    <div class="table-cell border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">{{ movie.score }}</div>
+                    <div class="table-cell border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">{{ movie.votersNumbers }}</div>
+                    <div class="table-cell align-middle ">
+                        <a href="{{ path('movie_detail', { 'id': movie.id }) }}"
+                           class="    bg-blue-500 hover:bg-blue-700 text-white font-bold m-8 px-4 py-1 rounded-full">Voir</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+    </div>
 {% endblock %}

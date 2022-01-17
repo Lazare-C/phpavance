@@ -1,21 +1,13 @@
-@import "tailwindcss/base";
+/*
+ * Copyright (C) CHEVEREAU Lazare - All Rights Reserved
+ *
+ * @project    phpavance
+ * @file       app.css
+ * @author     CHEVEREAU Lazare
+ * @date       17/01/2022 13:11
+ */
 
-
-@import "tailwindcss/components";
-
-@import "tailwindcss/utilities";
-
-@layer base {
-    h1 {
-        @apply text-2xl;
-    }
-    h2 {
-        @apply text-xl;
-    }
-    h3 {
-        @apply text-lg;
-    }
-    a {
-        @apply text-blue-600 underline;
-    }
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@tailwind forms
