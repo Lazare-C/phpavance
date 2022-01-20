@@ -5,15 +5,27 @@
 {% block body %}
 
 
-    <div class="example-wrapper">
+    <div class="flex">
+        {% if  file_link is not null %}
+            <div class="basis-1/4 mr-8">
+                <img src="{{ asset('uploads/covers/' ~ movie.id ~'.png') }}">
+            </div>
+
+        {% endif %}
+        <div class="detail">
 
 
-        <h1 class="text-2xl">{{ movie.name }}</h1>
-        <p class="italic"> {{ movie.description }}</p>
-        <p>Note locale: {{ movie.score }}</p>
-        <p>Nombre de vote local: {{ movie.votersNumbers }}</p>
-        <p>Note IMDB: {{ movie.imdbRating }}</p>
-        <p>Nombre de vote IMDB: {{ movie.imdbVotes }}</p>
-        {{ form(delete) }}
+            <h1 class="text-2xl">{{ movie.name }}</h1>
+            <p class="italic"> {{ movie.description }}</p>
+            <p>Note locale: {{ movie.score }}</p>
+            <p>Nombre de vote local: {{ movie.votersNumbers }}</p>
+            <p>Note IMDB: {{ movie.imdbRating }}</p>
+            <p>Nombre de vote IMDB: {{ movie.imdbVotes }}</p>
+            <div class="w-fit my-4">{{ form(delete) }}</div>
+            <div class="w-fit my-4">{{ form(upload) }}</div>
+
+        </div>
     </div>
 {% endblock %}
+
+

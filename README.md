@@ -4,21 +4,32 @@
 
 Symfony _5.4_ project gathering a list of movies with local notes but also IMDB notes and desciption.
 
+## Indications
+
+To add a film you have to go through the route: `/movie/add`or for a bulk import `/movie/add/bulk`.
+
+If you add a movie that already exists it will just calculate the new average score and save it in the database.
+
+Knowing that normally the batch import is reserved for admins and that movies already contains a descriptions, the app
+will not check with the API to not overload it
+
+Also, only the last uploaded poster is kept.
+
 ## Environment Variables
 
 To run this project, you will need to add the following environment variables to your .env file
 
-`DATABASE_URL`
+`DATABASE_URL = sqlite:///%kernel.project_dir%/var/data.db`
 
-`OMBDBAPIKEY`
+`OMBDBAPIKEY = 1234`
 
-`ADMIN_CODE`
+`ADMIN_CODE = 1234`
 
 ## Tech Stack
 
 **Client:** TailwindCSS
 
-**Server:** Symfony, Twig
+**Server:** Symfony, SQLite, Twig, Webpack and Encor
 
 **API:** OMDB
 
@@ -29,6 +40,8 @@ To deploy this project run
 ```bash
   composer install
   php bin/console doctrine:migrations:migrate
+  npm install
+  npm run build
 ```
 
 _Launch dev server_

@@ -1,4 +1,12 @@
 <?php
+/*
+ * Copyright (C) CHEVEREAU Lazare - All Rights Reserved
+ *
+ * @project    phpavance
+ * @file       HomePageController.php
+ * @author     CHEVEREAU Lazare
+ * @date       20/01/2022 11:59
+ */
 
 namespace App\Controller;
 
